@@ -5,38 +5,45 @@ import {
 } from '@react-navigation/drawer';
 import React from 'react';
 
-const CustomDrawer = (props) => {
+const CustomDrawer = props => {
   return (
-    <DrawerContentScrollView {...props}
+    <DrawerContentScrollView
+      {...props}
       style={{
         backgroundColor: '#842B45',
       }}>
-      <DrawerItemList {...props}
+      <DrawerItemList
+        {...props}
         itemStyle={{
           marginLeft: 0,
           marginRight: 0,
           marginTop: 0,
           marginBottom: 0,
-          borderRadius: 0,
+          borderRadius: 20,
           fontSize: 14,
           paddingLeft: 14,
           margin: 20,
-          height: 40,
+          height: 90,
           justifyContent: 'center',
         }}
         labelStyle={{
-          color: '#42528e',
-          fontSize: 14,
+          color: 'white',
+          fontSize: 30,
           fontWeight: 'normal',
           fontFamily: 'SFUIDisplay-Regular',
           marginTop: 0,
-          marginLeft: -20,
-          paddingVertical: -20,
+          marginLeft: 20,
           marginTop: -10,
-          marginBottom: -20,
-          }}
-        />
-        <DrawerItem label="Logout" onPress={() => props.navigation.toggleDrawer()} />
+          marginBottom: -10,
+        }}
+      />
+      <DrawerItem
+        style={{paddingLeft: 24}}
+        labelStyle={{fontSize: 30, color: 'white'}}
+        label="Exit"
+        activeTintColor='black'
+        onPress={() => props.navigation.toggleDrawer()}
+      />
     </DrawerContentScrollView>
   );
 };
