@@ -1,22 +1,13 @@
 import React from 'react';
 import 'react-native-gesture-handler';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-  Button,
-} from 'react-native';
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import {StyleSheet, Text, View} from 'react-native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
+
 import Main from './src/components/Main';
+import CustomDrawer from './src/components/CustomDrawer';
+
+import {useWindowDimensions} from 'react-native';
 const Drawer = createDrawerNavigator();
 
 const Week1 = () => {
@@ -49,13 +40,14 @@ const Week4 = () => {
 };
 
 const App = () => {
+  const dimensions = useWindowDimensions();
   return (
     <NavigationContainer>
       <Drawer.Navigator
+        drawerContent={CustomDrawer}
         initialRouteName="Home"
-       // openByDefault={true}
-        drawerPosition="left"
-        drawerType="front">
+        drawerStyle={{color: '#E9E3E6'}}
+      >
         <Drawer.Screen name="Home" component={Main} />
         <Drawer.Screen name="Week1" component={Week1} />
         <Drawer.Screen name="Week2" component={Week2} />
@@ -68,7 +60,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   text: {
-    color: '#842B45',
+    color: '#E9E3E6',
     fontSize: 30,
     fontWeight: 'bold',
     letterSpacing: 1,
