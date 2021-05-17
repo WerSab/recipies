@@ -1,32 +1,46 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Image, FlatList} from 'react-native';
+import data from '../utils/data';
+import styles from './styles';
 
 const Salads = () => {
+  const salads = data.find(item => item.category === 'salads');
+  const {items, category} = salads;
+  const [{id, name, image, link}] = items;
+
+  const renderItem = element => {
+    return (
+      <View style={styles.itemContainer} key={element.id.toString()}>
+        <Image
+          source={{
+            uri: element.image,
+          }}
+          style={styles.image}
+        />
+        <Text style={[styles.name, styles.lightText]}>{element.name}</Text>
+      </View>
+    );
+  };
+  console.log('Items : ', items);
+  console.log(salads);
   return (
-    <View style={styles.container}>
-      <Text style={styles.text1}>Salads</Text>
-      <Text style={styles.text2}></Text>
+    <View style={[{backgroundColor: '#FF5B00'}, styles.container]}>
+      <Text style={[styles.headerText, {color: 'white'}]}>
+        {category.toUpperCase()}
+      </Text>
+      <FlatList
+        data={items}
+        renderItem={({item}) => renderItem(item)}
+        keyExtractor={(item, index) => index.toString()}
+        contentContainerStyle={{
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          width: '100%',
+          minHeight: '100%',
+        }}
+      />
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FF5B00',
-  },
-  text1: {
-    color: 'white',
-    fontSize: 30,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-  text2: {
-    color: '#E9E3E6',
-    fontSize: 30,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-  },
-});
+
 export default Salads;

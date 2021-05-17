@@ -9,6 +9,7 @@ import Dinners from './src/components/screens/Dinners';
 import Soups from './src/components/screens/Soups';
 import Salads from './src/components/screens/Salads';
 import Desserts from './src/components/screens/Desserts';
+//import data from './src/components/utils/data';
 
 import {useWindowDimensions} from 'react-native';
 const Drawer = createDrawerNavigator();
