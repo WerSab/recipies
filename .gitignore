@@ -38,8 +38,6 @@ yarn-error.log
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
-!debug.keystore
 
 # fastlane
 #
@@ -100,7 +98,6 @@ yarn.lock # include if you are using yarn - don't use both npm and yarn
 # BUCK
 buck-out/
 \.buckd/
-*.keystore
 
 # Fastlane
 #
