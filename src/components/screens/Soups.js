@@ -1,34 +1,33 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Week1 = () => {
+const Soups = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text1}>Week 1</Text>
+      <Text style={styles.text1}>Soups</Text>
       <Text style={styles.text2}></Text>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
-    
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#D9E1AC',
+    backgroundColor: '#B8EEAC',
   },
   text1: {
-    color: 'black',
+    color: '#8E3B53',
     fontSize: 30,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
+
   text2: {
-    color: 'black',
+    color: '#E9E3E6',
     fontSize: 30,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
 });
-export default Week1;
+export default Soups;

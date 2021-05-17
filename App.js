@@ -5,10 +5,10 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import Main from './src/components/Main';
 import CustomDrawer from './src/components/CustomDrawer';
-import Week1 from './src/components/screens/Week1';
-import Week2 from './src/components/screens/Week2';
-import Week3 from './src/components/screens/Week3';
-import Week4 from './src/components/screens/Week4';
+import Dinners from './src/components/screens/Dinners';
+import Soups from './src/components/screens/Soups';
+import Salads from './src/components/screens/Salads';
+import Desserts from './src/components/screens/Desserts';
 
 import {useWindowDimensions} from 'react-native';
 const Drawer = createDrawerNavigator();
@@ -23,10 +23,10 @@ const App = () => {
         drawerStyle={{color: 'white'}}
       >
         <Drawer.Screen name="Home" component={Main} />
-        <Drawer.Screen name="Week 1" component={Week1} />
-        <Drawer.Screen name="Week 2" component={Week2} />
-        <Drawer.Screen name="Week 3" component={Week3} />
-        <Drawer.Screen name="Week 4" component={Week4} />
+        <Drawer.Screen name="Dinners" component={Dinners} />
+        <Drawer.Screen name="Soups" component={Soups} />
+        <Drawer.Screen name="Salads" component={Salads} />
+        <Drawer.Screen name="Desserts" component={Desserts} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

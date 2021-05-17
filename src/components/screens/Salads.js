@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Week2 = () => {
+const Salads = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text1}>Week 2</Text>
+      <Text style={styles.text1}>Salads</Text>
       <Text style={styles.text2}></Text>
     </View>
   );
@@ -14,15 +14,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#B8EEAC',
+    backgroundColor: '#FF5B00',
   },
   text1: {
-    color: 'black',
+    color: 'white',
     fontSize: 30,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
-
   text2: {
     color: '#E9E3E6',
     fontSize: 30,
@@ -30,4 +29,4 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
 });
-export default Week2;
+export default Salads;
