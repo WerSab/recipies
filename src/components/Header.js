@@ -1,8 +1,9 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-const Header = ({textColor, category}) => {
+
+const Header = ({textColor, category, backgroundColor}) => {
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, {backgroundColor: backgroundColor}]}>
       <Text style={[styles.headerText, {color: textColor}]}>
         {category?.toUpperCase()}
       </Text>
@@ -11,8 +12,6 @@ const Header = ({textColor, category}) => {
 };
 const styles = StyleSheet.create({
   header: {
-    flex: 1,
-    backgroundColor: '#8DB32E',
     justifyContent: 'center',
     alignItems: 'center',
   },
