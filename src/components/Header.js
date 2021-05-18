@@ -1,9 +1,11 @@
 import React from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-const Header = () => {
+const Header = ({textColor, category}) => {
   return (
     <View style={styles.header}>
-      <Text style={styles.text}>Moje przepisy</Text>
+      <Text style={[styles.headerText, {color: textColor}]}>
+        {category?.toUpperCase()}
+      </Text>
     </View>
   );
 };
@@ -14,12 +16,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-  text: {
-    color: '#FFFFFF',
-    fontSize: 40,
-    fontWeight: 'bold',
-    letterSpacing: 2,
+  headerText: {
+    paddingVertical: 20,
+    fontSize: 28,
+    letterSpacing: 1,
   },
 });
 export default Header;

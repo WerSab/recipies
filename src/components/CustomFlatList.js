@@ -19,10 +19,7 @@ const CustomFlatList = ({data, category, backgroundColor, textColor}) => {
   };
   return (
     <View style={[{backgroundColor: backgroundColor}, styles.container]}>
-      <Text style={[styles.headerText, {color: textColor}]}>
-        {category.toUpperCase()}
-      </Text>
-      <FlatList
+           <FlatList
         data={data}
         renderItem={({item}) => renderItem(item)}
         keyExtractor={(item, index) => index.toString()}
@@ -66,9 +63,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerText: {
-    paddingVertical: 20,
-    fontSize: 28,
-    letterSpacing: 1,
-  },
+  
 });
