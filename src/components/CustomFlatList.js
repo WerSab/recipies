@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, FlatList, StyleSheet} from 'react-native';
+import {View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 
 const CustomFlatList = ({data, category, backgroundColor, textColor}) => {
 //   const [{id, name, image, link}] = data;
@@ -13,7 +13,9 @@ const CustomFlatList = ({data, category, backgroundColor, textColor}) => {
           }}
           style={styles.image}
         />
+        <TouchableOpacity onPress = {() => Linking.openURL(element.link)}>
         <Text style={[styles.name, {color: textColor}]}>{element.name}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
