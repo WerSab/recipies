@@ -9,33 +9,53 @@ import {
   Modal,
   Text,
   TextInput,
+  Picker,
 } from 'react-native';
 import {connect} from 'react-redux';
 
 import CustomFlatList from './CustomFlatList';
-import data from './utils/data';
+import {data, returnData, setToDatabase} from './utils/data';
 import {recepiesActions} from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
+
+//Komponent- propsy
 const Main = ({setData, storeData, navigation}) => {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nameInput, setNameInput] = useState('');
+  const [urlInput, setUrlInput] = useState('');
+  const [linkInput, setLinkInput] = useState('');
+  const [selectedValue, setSelectedValue] = useState('Dinners');
 
   useEffect(() => {
-    const getData = () => {
-      const recepies = data;
-      setData(recepies);
+    const getData = async () => {
+      setData(data);
       setIsLoading(false);
     };
     getData();
   }, [setData]);
 
+  const setRecipiesToStore = () => {
+    let itemToSet = {
+      id: data.length - 1,
+      category: selectedValue,
+      name: nameInput,
+      image: urlInput,
+      link: linkInput,
+    };
+    setToDatabase(itemToSet);
+    console.log('Item after set:', data);
+    // itemsFromStore.push(itemToSet);
+    // setData(items);
+  };
+
   return (
     <View
       style={{
         flex: 1,
+
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'yellow',
@@ -48,20 +68,57 @@ const Main = ({setData, storeData, navigation}) => {
           onBackdropPress={() => setIsModalVisible(false)}
           onBackButtonPress={() => setIsModalVisible(false)}>
           <View style={styles.centeredView}>
+            <Picker
+              selectedValue={selectedValue}
+              style={{height: 50, width: 150}}
+              onValueChange={itemValue => setSelectedValue(itemValue)}>
+              <Picker.Item label="Dinners" value="dinners" />
+              <Picker.Item label="Desserts" value="desserts" />
+              <Picker.Item label="Salads" value="salads" />
+              <Picker.Item label="Soups" value="soups" />
+            </Picker>
             <TextInput
               style={styles.input}
               onChangeText={setNameInput}
               value={nameInput}
               placeholder="Nazwa dania..."
             />
-            <TouchableOpacity
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                setIsModalVisible(!isModalVisible);
-                setNameInput('');
+            <TextInput
+              style={styles.input}
+              onChangeText={setUrlInput}
+              value={urlInput}
+              placeholder="Adres obrazka..."
+            />
+            <TextInput
+              style={styles.input}
+              onChangeText={setLinkInput}
+              value={linkInput}
+              placeholder="Link do strony..."
+            />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: '100%',
               }}>
-              <Text style={styles.textStyle}>Zamknij</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setIsModalVisible(!isModalVisible);
+                  setNameInput('');
+                }}>
+                <Text style={styles.textStyle}>Close</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.button, styles.buttonSafe]}
+                onPress={() => {
+                  setIsModalVisible(!isModalVisible);
+                  setRecipiesToStore();
+                }}>
+                <Text style={styles.textStyle}>Safe</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
       )}
@@ -128,11 +185,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     elevation: 2,
+    width: 120,
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
+    backgroundColor: '#CCCCCC',
+  },
+  buttonSafe: {
     backgroundColor: '#94B444',
   },
   textStyle: {

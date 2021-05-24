@@ -1,4 +1,4 @@
-const data = [
+export let data = [
   {
     category: 'salads',
     id: 0,
@@ -64,6 +64,14 @@ const data = [
     link: 'https://www.kwestiasmaku.com/blog-kulinarny/czekoladowe-ciastka-brownie',
   },
 ];
+
+export const setToDatabase = (item) => {
+  data.push(item)
+}
+
+export const returnData = () => {
+  return data
+}
 
 
 export default data;
