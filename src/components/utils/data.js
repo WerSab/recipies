@@ -1,4 +1,4 @@
-export let data = [
+let data = [
   {
     category: 'salads',
     id: 0,
@@ -66,18 +66,10 @@ export let data = [
 ];
 
 export const setToDatabase = item => {
-  try {
-    console.log('Item z data', item);
-    console.log('Data z data: ', data);
-    data.push(item);
-    console.log(data);
-  } catch (err) {
-    console.log('Error z data: ', err);
-  }
+  data.push(item);
+  return data
 };
 
 export const returnData = () => {
-  return data;
+  return [...data];
 };
-
-export default data;

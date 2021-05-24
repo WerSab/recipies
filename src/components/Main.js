@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   StyleSheet,
@@ -9,18 +9,20 @@ import {
   Modal,
   Text,
   TextInput,
-  Picker,
 } from 'react-native';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import CustomFlatList from './CustomFlatList';
-import {data, setToDatabase, returnData} from './utils/data';
-import {recepiesActions} from '../store';
+import { setToDatabase, returnData } from './utils/data';
+import { recepiesActions } from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
 
+let jakasData = returnData()
+console.log("JakasData", jakasData)
+
 //Komponent- propsy
-const Main = ({setData, storeData, navigation}) => {
+const Main = ({ setData, storeData, navigation }) => {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -31,30 +33,30 @@ const Main = ({setData, storeData, navigation}) => {
 
   useEffect(() => {
     const getData = () => {
-      let items = returnData();
-      console.log('useEffect main:', typeof items, items);
-      setData(items);
+      setData(jakasData);
       setIsLoading(false);
     };
     getData();
-  }, [setData]);
+  }, [setData, storeData]);
 
-  const setRecepieToDB = () => {
-    try {
+  const setRecepieToDB = async () => {
+    console.log("Set recepie", jakasData)
+    if (jakasData !== undefined) {
       let itemToSet = {
-        id: data.length,
+        id: jakasData.length,
         category: selectedValue,
         name: nameInput,
         image: urlInput,
         link: linkInput,
-      };
-      console.log('Item after set:', itemToSet);
-      setToDatabase(itemToSet);
-      // return itemToSet;
-    } catch (err) {
-      console.log('Err z Maina'), err;
+      }
+      // const dataFromDB = await setToDatabase(itemToSet);
+      setToDatabase(itemToSet)
     }
-  };
+    else {
+      return console.log("Co jest grane")
+    }
+  }
+
 
   return (
     <View
@@ -73,15 +75,6 @@ const Main = ({setData, storeData, navigation}) => {
           onBackdropPress={() => setIsModalVisible(false)}
           onBackButtonPress={() => setIsModalVisible(false)}>
           <View style={styles.centeredView}>
-            <Picker
-              selectedValue={selectedValue}
-              style={{height: 50, width: 150}}
-              onValueChange={itemValue => setSelectedValue(itemValue)}>
-              <Picker.Item label="Dinners" value="dinners" />
-              <Picker.Item label="Desserts" value="desserts" />
-              <Picker.Item label="Salads" value="salads" />
-              <Picker.Item label="Soups" value="soups" />
-            </Picker>
             <TextInput
               style={styles.input}
               onChangeText={setNameInput}
@@ -128,7 +121,7 @@ const Main = ({setData, storeData, navigation}) => {
         </Modal>
       )}
 
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
@@ -155,7 +148,7 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  setData: data => dispatch(recepiesActions.setData(data)),
+  setData: jakasData => dispatch(recepiesActions.setData(jakasData)),
 });
 
 const styles = StyleSheet.create({
