@@ -14,7 +14,7 @@ import {
 import {connect} from 'react-redux';
 
 import CustomFlatList from './CustomFlatList';
-import {data, returnData, setToDatabase} from './utils/data';
+import {data, setToDatabase, returnData} from './utils/data';
 import {recepiesActions} from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
@@ -30,25 +30,30 @@ const Main = ({setData, storeData, navigation}) => {
   const [selectedValue, setSelectedValue] = useState('Dinners');
 
   useEffect(() => {
-    const getData = async () => {
-      setData(data);
+    const getData = () => {
+      let items = returnData();
+      console.log('useEffect main:', typeof items, items);
+      setData(items);
       setIsLoading(false);
     };
     getData();
   }, [setData]);
 
-  const setRecipiesToStore = () => {
-    let itemToSet = {
-      id: data.length - 1,
-      category: selectedValue,
-      name: nameInput,
-      image: urlInput,
-      link: linkInput,
-    };
-    setToDatabase(itemToSet);
-    console.log('Item after set:', data);
-    // itemsFromStore.push(itemToSet);
-    // setData(items);
+  const setRecepieToDB = () => {
+    try {
+      let itemToSet = {
+        id: data.length,
+        category: selectedValue,
+        name: nameInput,
+        image: urlInput,
+        link: linkInput,
+      };
+      console.log('Item after set:', itemToSet);
+      setToDatabase(itemToSet);
+      // return itemToSet;
+    } catch (err) {
+      console.log('Err z Maina'), err;
+    }
   };
 
   return (
@@ -114,7 +119,7 @@ const Main = ({setData, storeData, navigation}) => {
                 style={[styles.button, styles.buttonSafe]}
                 onPress={() => {
                   setIsModalVisible(!isModalVisible);
-                  setRecipiesToStore();
+                  setRecepieToDB();
                 }}>
                 <Text style={styles.textStyle}>Safe</Text>
               </TouchableOpacity>
