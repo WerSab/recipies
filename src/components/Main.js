@@ -11,58 +11,42 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
+import {Picker} from '@react-native-picker/picker';
 
 import CustomFlatList from './CustomFlatList';
-import { setToDatabase, returnData } from './utils/data';
 import { recepiesActions } from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
 
-let jakasData = returnData()
-console.log("JakasData", jakasData)
-
 //Komponent- propsy
-const Main = ({ setData, storeData, navigation }) => {
-  const [text, setText] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
+const Main = ({ recepies, setData, addRecepie, navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
   const [linkInput, setLinkInput] = useState('');
   const [selectedValue, setSelectedValue] = useState('Dinners');
 
-  useEffect(() => {
-    const getData = () => {
-      setData(jakasData);
-      setIsLoading(false);
-    };
-    getData();
-  }, [setData, storeData]);
-
-  const setRecepieToDB = async () => {
-    console.log("Set recepie", jakasData)
-    if (jakasData !== undefined) {
-      let itemToSet = {
-        id: jakasData.length,
-        category: selectedValue,
-        name: nameInput,
-        image: urlInput,
-        link: linkInput,
-      }
-      // const dataFromDB = await setToDatabase(itemToSet);
-      setToDatabase(itemToSet)
-    }
-    else {
-      return console.log("Co jest grane")
-    }
+  const clearInputs = () => {
+    setNameInput('')
+    setUrlInput('')
+    setLinkInput('')
   }
 
+  const setRecepieToDB = async () => {
+    let itemToSet = {
+      id: recepies.length,
+      // category: selectedValue,
+      name: nameInput,
+      image: urlInput,
+      link: linkInput,
+    }
+    addRecepie(itemToSet)
+  }
 
   return (
     <View
       style={{
         flex: 1,
-
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'yellow',
@@ -75,6 +59,15 @@ const Main = ({ setData, storeData, navigation }) => {
           onBackdropPress={() => setIsModalVisible(false)}
           onBackButtonPress={() => setIsModalVisible(false)}>
           <View style={styles.centeredView}>
+            <Picker
+              selectedValue={selectedValue}
+              style={{ height: 50, width: 150 }}
+              onValueChange={itemValue => setSelectedValue(itemValue)}>
+              <Picker.Item label="Dinners" value="dinners" />
+              <Picker.Item label="Desserts" value="desserts" />
+              <Picker.Item label="Salads" value="salads" />
+              <Picker.Item label="Soups" value="soups" />
+            </Picker>
             <TextInput
               style={styles.input}
               onChangeText={setNameInput}
@@ -112,6 +105,7 @@ const Main = ({ setData, storeData, navigation }) => {
                 style={[styles.button, styles.buttonSafe]}
                 onPress={() => {
                   setIsModalVisible(!isModalVisible);
+                  clearInputs();
                   setRecepieToDB();
                 }}>
                 <Text style={styles.textStyle}>Safe</Text>
@@ -124,7 +118,7 @@ const Main = ({ setData, storeData, navigation }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <TouchableOpacity onPress={() => navigation.navigation.toggleDrawer()}>
             <Image style={styles.icon} source={moreIcon} />
           </TouchableOpacity>
 
@@ -133,7 +127,7 @@ const Main = ({ setData, storeData, navigation }) => {
           </TouchableOpacity>
         </View>
         <CustomFlatList
-          data={storeData}
+          data={recepies}
           category="Recipies"
           backgroundColor="#D9E1AC"
           textColor="#842B45"
@@ -144,11 +138,12 @@ const Main = ({ setData, storeData, navigation }) => {
 };
 
 const mapState = state => ({
-  storeData: state.recepies,
+  recepies: state.recepies,
 });
 
 const mapDispatch = dispatch => ({
-  setData: jakasData => dispatch(recepiesActions.setData(jakasData)),
+  setData: data => dispatch(recepiesActions.setData(data)),
+  addRecepie: data => dispatch(recepiesActions.setData(data))
 });
 
 const styles = StyleSheet.create({
