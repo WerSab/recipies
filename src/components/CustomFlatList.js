@@ -1,9 +1,8 @@
 import React from 'react';
-import {View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Linking} from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 
-const CustomFlatList = ({data, category, backgroundColor, textColor}) => {
-//   const [{id, name, image, link}] = data;
-
+const CustomFlatList = ({ data, category, backgroundColor, textColor }) => {
+  //   const [{id, name, image, link}] = data;
   const renderItem = element => {
     return (
       <View style={styles.itemContainer} key={element.id.toString()}>
@@ -13,17 +12,17 @@ const CustomFlatList = ({data, category, backgroundColor, textColor}) => {
           }}
           style={styles.image}
         />
-        <TouchableOpacity onPress = {() => Linking.openURL(element.link)}>
-        <Text style={[styles.name, {color: textColor}]}>{element.name}</Text>
+        <TouchableOpacity onPress={() => Linking.openURL(element.link)}>
+          <Text style={[styles.name, { color: textColor }]}>{element.name}</Text>
         </TouchableOpacity>
       </View>
     );
   };
   return (
-    <View style={[{backgroundColor: backgroundColor}, styles.container]}>
-           <FlatList
+    <View style={[{ backgroundColor: backgroundColor }, styles.container]}>
+      <FlatList
         data={data}
-        renderItem={({item}) => renderItem(item)}
+        renderItem={({ item }) => renderItem(item)}
         keyExtractor={(item, index) => index.toString()}
         contentContainerStyle={{
           justifyContent: 'flex-start',
@@ -45,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 8,
   },
-  image: {height: 80, width: 120, flexBasis: '40%'},
+  image: { height: 80, width: 120, flexBasis: '40%' },
   lightText: {
     color: '#E9E3E6',
   },
@@ -65,5 +64,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
+
 });

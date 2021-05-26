@@ -11,7 +11,7 @@ import {
   TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 import CustomFlatList from './CustomFlatList';
 import { recepiesActions } from '../store';
@@ -19,7 +19,7 @@ import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
 
 //Komponent- propsy
-const Main = ({ recepies, setData, addRecepie, navigation }) => {
+const Main = ({ recepies, addRecepie, navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
@@ -32,24 +32,24 @@ const Main = ({ recepies, setData, addRecepie, navigation }) => {
     setLinkInput('')
   }
 
-  const setRecepieToDB = async () => {
+  const setRecepieToDB = () => {
+    // let items = [...recepies]
     let itemToSet = {
       id: recepies.length,
-      // category: selectedValue,
+      category: selectedValue,
       name: nameInput,
       image: urlInput,
       link: linkInput,
     }
+    // items.push(itemToSet)
     addRecepie(itemToSet)
   }
-
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'yellow',
       }}>
       {isModalVisible && (
         <Modal
@@ -118,7 +118,7 @@ const Main = ({ recepies, setData, addRecepie, navigation }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <StatusBar />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.navigation.toggleDrawer()}>
+          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
             <Image style={styles.icon} source={moreIcon} />
           </TouchableOpacity>
 
@@ -142,8 +142,8 @@ const mapState = state => ({
 });
 
 const mapDispatch = dispatch => ({
-  setData: data => dispatch(recepiesActions.setData(data)),
-  addRecepie: data => dispatch(recepiesActions.setData(data))
+  // setData: data => dispatch(recepiesActions.setData(data)),
+  addRecepie: data => dispatch(recepiesActions.addRecepie(data))
 });
 
 const styles = StyleSheet.create({
@@ -180,9 +180,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     width: 120,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
   buttonClose: {
     backgroundColor: '#CCCCCC',
   },
@@ -192,10 +189,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
     textAlign: 'center',
   },
   input: {
