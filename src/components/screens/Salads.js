@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import CustomFlatList from '../CustomFlatList';
 import Header from '../Header'
 
-const Salads = ({ storeData }) => {
-  const salads = storeData.filter(item => item.category === 'salads');
+const Salads = ({ recepies }) => {
+  const salads = recepies.filter(item => item.category === 'salads');
   const { category } = salads[0];
 
   return (
@@ -25,7 +25,7 @@ const Salads = ({ storeData }) => {
 };
 
 const mapState = (state) => ({
-  storeData: state.recepies
+  recepies: state.recepies
 })
 
 export default connect(mapState)(Salads);
