@@ -15,6 +15,7 @@ import CustomFlatList from './CustomFlatList';
 import {recepiesActions} from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
+import searchIcon from'../../assets/icons/search.png';
 
 //Komponent- propsy
 const Main = ({recepies, addRecepie, navigation}) => {
@@ -115,6 +116,10 @@ const Main = ({recepies, addRecepie, navigation}) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Image style={styles.icon} source={moreIcon} />
+        </TouchableOpacity>
+        {/* tu podpinamy funkcję search do ikony */}
+        <TouchableOpacity /*onPress={() => ()}*/>
+          <Image style={styles.icon} source={searchIcon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
           <Image style={styles.icon} source={addIcon} />

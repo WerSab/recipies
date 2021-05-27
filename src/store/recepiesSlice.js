@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import select from 'react-native';
 let data = [
   {
     category: 'salads',
