@@ -24,7 +24,7 @@ const CustomFlatList = ({
   console.log(id);
     Alert.alert(
       "Delete alert",
-      `Are you sure want to delete ${name}?`,
+      `Do You want to delete ${name}?`,
       [
         {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
         {text: 'Ok', onPress: () => deleteElement(id)},
