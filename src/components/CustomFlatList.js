@@ -1,8 +1,36 @@
 import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+  Alert,
+} from 'react-native';
+import {connect} from 'react-redux';
+import {recepiesActions} from '../store';
+import deleteIcon from '../../assets/icons/delete.png/';
 
-const CustomFlatList = ({ data, category, backgroundColor, textColor }) => {
-  //   const [{id, name, image, link}] = data;
+const CustomFlatList = ({
+  data,
+  category,
+  backgroundColor,
+  textColor,
+  deleteElement,
+}) => {
+  const deleteAlert = (id, name) => {
+  console.log(id);
+    Alert.alert(
+      "Delete alert",
+      `Are you sure want to delete ${name}?`,
+      [
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
+        {text: 'Ok', onPress: () => deleteElement(id)},
+      ]
+    )
+  };
   const renderItem = element => {
     return (
       <View style={styles.itemContainer} key={element.id.toString()}>
@@ -12,57 +40,69 @@ const CustomFlatList = ({ data, category, backgroundColor, textColor }) => {
           }}
           style={styles.image}
         />
-        <TouchableOpacity onPress={() => Linking.openURL(element.link)}>
-          <Text style={[styles.name, { color: textColor }]}>{element.name}</Text>
+        <TouchableOpacity
+          onPress={() => Linking.openURL(element.link)}
+          style={styles.textContainer}>
+          <Text numberOfLines={1} style={[styles.name, {color: textColor}]}>
+            {element.name}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={()=>deleteAlert(element.id, element.name)}
+          style={styles.imageContainer}>
+          <Image source={deleteIcon} style={styles.icon} />
         </TouchableOpacity>
       </View>
     );
   };
   return (
-    <View style={[{ backgroundColor: backgroundColor }, styles.container]}>
+    <View style={[{backgroundColor: backgroundColor}, styles.container]}>
       <FlatList
         data={data}
-        renderItem={({ item }) => renderItem(item)}
+        renderItem={({item}) => renderItem(item)}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={{
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          width: '100%',
-          minHeight: '100%',
-        }}
+        style={{flex: 1}}
       />
     </View>
   );
 };
-export default CustomFlatList;
+
+const mapDispatch = dispatch => ({
+  deleteElement: id => dispatch(recepiesActions.deleteElement(id)),
+});
+export default connect(null, mapDispatch)(CustomFlatList);
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: 'row',
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 8,
-  },
-  image: { height: 80, width: 120, flexBasis: '40%' },
-  lightText: {
-    color: '#E9E3E6',
-  },
-  darkText: {
-    color: '#842B45',
-  },
-  name: {
-    fontSize: 26,
-    letterSpacing: 1,
-    textAlign: 'left',
-    flexBasis: '60%',
-    textAlign: 'left',
-    marginLeft: 15,
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: '100%',
   },
-
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    width: '100%',
+  },
+  image: {height: 70, width: 110, flexBasis: '20%'},
+  textContainer: {
+    textAlign: 'center',
+    flexBasis: '70%',
+  },
+  name: {
+    fontSize: 20,
+    letterSpacing: 1,
+    paddingHorizontal: 5,
+  },
+  imageContainer: {
+    flexBasis: '10%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  icon: {
+    height: 25,
+    width: 25,
+    tintColor: 'black',
+  },
 });

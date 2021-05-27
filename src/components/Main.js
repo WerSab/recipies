@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   StyleSheet,
-  SafeAreaView,
-  StatusBar,
   TouchableOpacity,
   View,
   Modal,
   Text,
   TextInput,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { Picker } from '@react-native-picker/picker';
+import {connect} from 'react-redux';
+import {Picker} from '@react-native-picker/picker';
 
 import CustomFlatList from './CustomFlatList';
-import { recepiesActions } from '../store';
+import {recepiesActions} from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
 
 //Komponent- propsy
-const Main = ({ recepies, addRecepie, navigation }) => {
+const Main = ({recepies, addRecepie, navigation}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
@@ -27,10 +25,10 @@ const Main = ({ recepies, addRecepie, navigation }) => {
   const [selectedValue, setSelectedValue] = useState('Dinners');
 
   const clearInputs = () => {
-    setNameInput('')
-    setUrlInput('')
-    setLinkInput('')
-  }
+    setNameInput('');
+    setUrlInput('');
+    setLinkInput('');
+  };
 
   const setRecepieToDB = () => {
     // let items = [...recepies]
@@ -40,16 +38,17 @@ const Main = ({ recepies, addRecepie, navigation }) => {
       name: nameInput,
       image: urlInput,
       link: linkInput,
-    }
+    };
     // items.push(itemToSet)
-    addRecepie(itemToSet)
-  }
+    addRecepie(itemToSet);
+  };
   return (
     <View
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'orange',
       }}>
       {isModalVisible && (
         <Modal
@@ -61,7 +60,7 @@ const Main = ({ recepies, addRecepie, navigation }) => {
           <View style={styles.centeredView}>
             <Picker
               selectedValue={selectedValue}
-              style={{ height: 50, width: 150 }}
+              style={{height: 50, width: 150}}
               onValueChange={itemValue => setSelectedValue(itemValue)}>
               <Picker.Item label="Dinners" value="dinners" />
               <Picker.Item label="Desserts" value="desserts" />
@@ -100,7 +99,6 @@ const Main = ({ recepies, addRecepie, navigation }) => {
                 }}>
                 <Text style={styles.textStyle}>Close</Text>
               </TouchableOpacity>
-
               <TouchableOpacity
                 style={[styles.button, styles.buttonSafe]}
                 onPress={() => {
@@ -114,25 +112,20 @@ const Main = ({ recepies, addRecepie, navigation }) => {
           </View>
         </Modal>
       )}
-
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-            <Image style={styles.icon} source={moreIcon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-            <Image style={styles.icon} source={addIcon} />
-          </TouchableOpacity>
-        </View>
-        <CustomFlatList
-          data={recepies}
-          category="Recipies"
-          backgroundColor="#D9E1AC"
-          textColor="#842B45"
-        />
-      </SafeAreaView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+          <Image style={styles.icon} source={moreIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Image style={styles.icon} source={addIcon} />
+        </TouchableOpacity>
+      </View>
+      <CustomFlatList
+        data={recepies}
+        category="Recipies"
+        backgroundColor="#D9E1AC"
+        textColor="#842B45"
+      />
     </View>
   );
 };
@@ -143,14 +136,18 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   // setData: data => dispatch(recepiesActions.setData(data)),
-  addRecepie: data => dispatch(recepiesActions.addRecepie(data))
+  addRecepie: data => dispatch(recepiesActions.addRecepie(data)),
 });
+
+
+export default connect(mapState, mapDispatch)(Main);
 
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#94B444',
+    width: '100%',
   },
   icon: {
     height: 50,
@@ -199,5 +196,3 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
 });
-
-export default connect(mapState, mapDispatch)(Main);
