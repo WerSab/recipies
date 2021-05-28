@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,17 +8,16 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {Picker} from '@react-native-picker/picker';
+import { connect } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
 
 import CustomFlatList from './CustomFlatList';
-import {recepiesActions} from '../store';
+import { recepiesActions } from '../store';
 import addIcon from '../../assets/icons/add.png';
 import moreIcon from '../../assets/icons/more.png';
-import searchIcon from'../../assets/icons/search.png';
 
 //Komponent- propsy
-const Main = ({recepies, addRecepie, navigation}) => {
+const Main = ({ recepies, addRecepie, navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [urlInput, setUrlInput] = useState('');
@@ -61,7 +60,7 @@ const Main = ({recepies, addRecepie, navigation}) => {
           <View style={styles.centeredView}>
             <Picker
               selectedValue={selectedValue}
-              style={{height: 50, width: 150}}
+              style={{ height: 50, width: 150 }}
               onValueChange={itemValue => setSelectedValue(itemValue)}>
               <Picker.Item label="Dinners" value="dinners" />
               <Picker.Item label="Desserts" value="desserts" />
@@ -117,10 +116,10 @@ const Main = ({recepies, addRecepie, navigation}) => {
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Image style={styles.icon} source={moreIcon} />
         </TouchableOpacity>
-        {/* tu podpinamy funkcję search do ikony */}
-        <TouchableOpacity /*onPress={() => ()}*/>
+        {/* tu podpinamy funkcję search do ikony
+        <TouchableOpacity>
           <Image style={styles.icon} source={searchIcon} />
-        </TouchableOpacity>
+        // </TouchableOpacity> */}
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
           <Image style={styles.icon} source={addIcon} />
         </TouchableOpacity>
@@ -130,6 +129,7 @@ const Main = ({recepies, addRecepie, navigation}) => {
         category="Recipies"
         backgroundColor="#D9E1AC"
         textColor="#842B45"
+        withSearchbar={true}
       />
     </View>
   );

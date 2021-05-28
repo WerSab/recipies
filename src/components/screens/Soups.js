@@ -19,6 +19,7 @@ const Soups = ({ recepies }) => {
         category={category}
         backgroundColor="#B8EEAC"
         textColor="#842B45"
+        withSearchbar={false}
       />
     </>
   );

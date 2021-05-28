@@ -17,6 +17,7 @@ const Dinners = ({ recepies }) => {
         category={category}
         backgroundColor="#D9E1AC"
         textColor="#842B45"
+        withSearchbar={false}
       />
     </>
   );

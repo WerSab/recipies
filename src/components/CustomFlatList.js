@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,10 @@ import {
   TouchableOpacity,
   Linking,
   Alert,
+  TextInput
 } from 'react-native';
-import {connect} from 'react-redux';
-import {recepiesActions} from '../store';
+import { connect } from 'react-redux';
+import { recepiesActions } from '../store';
 import deleteIcon from '../../assets/icons/delete.png/';
 
 const CustomFlatList = ({
@@ -19,18 +20,47 @@ const CustomFlatList = ({
   backgroundColor,
   textColor,
   deleteElement,
+  withSearchbar
 }) => {
+
+  const [flatListData, setFlatListData] = useState(data)
+  const [searchInputValue, setSearchInputValue] = useState('')
+
   const deleteAlert = (id, name) => {
-  console.log(id);
     Alert.alert(
       "Delete alert",
       `Do You want to delete ${name}?`,
       [
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed')},
-        {text: 'Ok', onPress: () => deleteElement(id)},
+        { text: 'Cancel', onPress: () => console.log('Cancel Pressed') },
+        { text: 'Ok', onPress: () => deleteElement(id) },
       ]
     )
   };
+
+  const renderSearchBar = () => {
+    return (
+      <TextInput
+        clearButtonMode="while-editing"
+        inlineImageLeft='search_icon'
+        value={searchInputValue}
+        onChangeText={text => {
+          searchFilterFunction(text)
+        }}
+        placeholder="Wyszukaj..."
+        placeholderTextColor="gray" />
+    )
+  }
+
+  const searchFilterFunction = (text) => {
+    const newData = data?.filter(item => {
+      const itemData = item.name.toLowerCase().trim()
+      const textData = text.toLowerCase()
+      return itemData.includes(textData)
+    })
+    setSearchInputValue(text);
+    setFlatListData(newData)
+  }
+
   const renderItem = element => {
     return (
       <View style={styles.itemContainer} key={element.id.toString()}>
@@ -43,26 +73,30 @@ const CustomFlatList = ({
         <TouchableOpacity
           onPress={() => Linking.openURL(element.link)}
           style={styles.textContainer}>
-          <Text numberOfLines={1} style={[styles.name, {color: textColor}]}>
+          <Text numberOfLines={1} style={[styles.name, { color: textColor }]}>
             {element.name}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={()=>deleteAlert(element.id, element.name)}
+          onPress={() => deleteAlert(element.id, element.name)}
           style={styles.imageContainer}>
           <Image source={deleteIcon} style={styles.icon} />
         </TouchableOpacity>
       </View>
     );
   };
+
   return (
-    <View style={[{backgroundColor: backgroundColor}, styles.container]}>
+    <View style={[{ backgroundColor: backgroundColor }, styles.container]}>
+      {/* gdybyśmy wyrenderowali to jako ListHeaderComponent to by nam się za każdą literką przeładowywało */}
+      {withSearchbar ? renderSearchBar() : null}
       <FlatList
-        data={data}
-        renderItem={({item}) => renderItem(item)}
+        data={flatListData}
+        // ListHeaderComponent={renderSearchBar || null}
+        renderItem={({ item }) => renderItem(item)}
         keyExtractor={(item, index) => index.toString()}
-        style={{flex: 1}}
+        style={{ flex: 1 }}
       />
     </View>
   );
@@ -85,7 +119,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     width: '100%',
   },
-  image: {height: 70, width: 110, flexBasis: '20%'},
+  image: { height: 70, width: 110, flexBasis: '20%' },
   textContainer: {
     textAlign: 'center',
     flexBasis: '70%',

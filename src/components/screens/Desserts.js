@@ -15,6 +15,7 @@ const Desserts = ({ recepies }) => {
         data={desserts}
         backgroundColor="#DF4343"
         textColor="#E9E3E6"
+        withSearchbar={false}
       />
     </>
   );

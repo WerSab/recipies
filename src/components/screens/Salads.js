@@ -19,6 +19,7 @@ const Salads = ({ recepies }) => {
         category={category}
         backgroundColor="#FF5B00"
         textColor="#E9E3E6"
+        withSearchbar={false}
       />
     </>
   );
