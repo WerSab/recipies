@@ -8,11 +8,12 @@ import {
   TouchableOpacity,
   Linking,
   Alert,
-  TextInput
+  TextInput,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { recepiesActions } from '../store';
 import deleteIcon from '../../assets/icons/delete.png/';
+import searchIcon from '../../assets/icons/search.png/';
 
 const CustomFlatList = ({
   data,
@@ -39,15 +40,17 @@ const CustomFlatList = ({
 
   const renderSearchBar = () => {
     return (
-      <TextInput
+      <TextInput inlineImageLeft="search_icon"
+        inlineImagePadding={5}
         clearButtonMode="while-editing"
-        inlineImageLeft='search_icon'
         value={searchInputValue}
         onChangeText={text => {
           searchFilterFunction(text)
         }}
         placeholder="Wyszukaj..."
-        placeholderTextColor="gray" />
+        placeholderTextColor="gray" 
+        />
+       
     )
   }
 
